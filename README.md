@@ -24,3 +24,6 @@ For programming the ATTINY85 I used my homemade Arduino UNO shield (if you use a
 
 For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS (BOM will follow).
 
+The code for the ATTINY85 is added in this github repository. Be aware that the code did not cover the temperature monitoring feature so far. 
+
+Before you upload the code onto the ATTINY85 please make sure that you *first upload the bootloader with _8MHz_*. Otherwise the IR code will not work (it will read out complete nonsense).
