@@ -25,6 +25,8 @@ Requirements:
 
 For programming the ATTINY85 I used my homemade Arduino UNO shield (if you use a websearch of your choice to find one on the internet).
 
+The wiring of this project can be found at this web location: https://easyeda.com/normal/Wohnwand_LED_Dimmer-4bb96620fb774767b6f44a7fb720bd82
+
 For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS (BOM will follow).
 
 The code for the ATTINY85 is added in this github repository. Be aware that the code did not cover the temperature monitoring feature so far. 
