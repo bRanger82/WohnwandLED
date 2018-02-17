@@ -29,6 +29,9 @@ The wiring of this project can be found at this web location: https://easyeda.co
 
 For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS (BOM will follow).
 
+**Note:** the temperature sensor is a security feature which checks (in the loop method) the actual temperature. If the measured temperature exceeds a defined threshold value, the outputs are turned off! 
+If you do not want to use a temperature sensor you will **do it on your own risk**. It is highly recommended to use one to monitor the temperature inside the case. 
+
 The code for the ATTINY85 is added in this github repository. Be aware that the code did not cover the temperature monitoring feature so far. 
 
 Before you upload the code onto the ATTINY85 please make sure that you **first upload the bootloader with _8MHz_**. Otherwise the IR code will not work (it will read out complete nonsense).
