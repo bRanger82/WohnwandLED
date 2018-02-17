@@ -2,7 +2,7 @@ With this project you are able to control the LED stripes of your living wall wi
 
 There are some reasons why I did not simply went into the next electronic store and bought a pre-made LED-stripe:
 - I want to get more into electronics, what is a better as learning by doing? (no, this time no smoke esacped during testing)
-- pre-made LED stripes controller works, in most cases, only with LED stripe from the same company. So you have to replace your current LED stripes and replace with, which in my opinion is nonsense
+- pre-made LED stripes controller works, in most cases, only with LED stripe from the same company. So you have to replace your current LED stripes which is, in my opinion, nonsense
 - even if there is at least one LED stripe controller for your LED stripes, you get one more IR remote control device (yes, one MORE)
 - a pre-made LED stripe controller does only what it is supposed to do. If you make one on your own you can, for instance, add a fading function with a fade-in/fade-out time what YOU define
 
