@@ -1,10 +1,9 @@
 #include "tiny_IRremote.h"   // the standard IR library does not work (it uses the TIMER0 which is also used for the delay function)
-#include <SoftwareSerial.h>
-
-SoftwareSerial mySerial(3,4);
 
 // the IR receiver is connected to PIN3
 #define RECV_PIN 2
+
+#define ERROR_LED 4
 
 // defines the PIN where the temperature-sensor is connected
 #define TEMP_SENSOR 5
@@ -50,7 +49,6 @@ volatile int curr = 0;
 // the setup function runs once when you press reset or power the board
 void setup() 
 {
-  mySerial.begin(9600);
   // activate IR receiver
   irrecv.enableIRIn(); // Start the receiver
   
@@ -59,7 +57,7 @@ void setup()
   // Define pins, currently only OUT_1 is used
   pinMode(OUT_0, OUTPUT);
   pinMode(OUT_1, OUTPUT);
-
+  pinMode(ERROR_LED, OUTPUT);
   analogWrite(OUT_0, curr);
   analogWrite(OUT_1, curr);
 }
@@ -138,15 +136,22 @@ bool IsTemperatureOK()
 // the loop function runs over and over again forever
 void loop() 
 {
+  if (!IsTemperatureOK())
+  {
+    analogWrite(OUT_0, 0);
+    analogWrite(OUT_1, 0);
+    digitalWrite(ERROR_LED, HIGH);
+    delay(150);
+    digitalWrite(ERROR_LED, LOW);
+    delay(150);
+    return;
+  }
+  
   // need a break, need a kitk ... ahm delay :)
   delay(DELAY_LOOP_RUN);
 
   if (irrecv.decode(&results)) 
   {
-    mySerial.print("Received value: ");
-    mySerial.println(results.value);
-    mySerial.flush();
-    
     // based on the pressed button the desired funcion should be done
     if (results.value == left) 
     {
