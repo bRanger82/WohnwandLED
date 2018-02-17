@@ -1,10 +1,15 @@
 #include "tiny_IRremote.h"   // the standard IR library does not work (it uses the TIMER0 which is also used for the delay function)
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(4,5);
+SoftwareSerial mySerial(3,4);
 
 // the IR receiver is connected to PIN3
 #define RECV_PIN 2
+
+// defines the PIN where the temperature-sensor is connected
+#define TEMP_SENSOR 5
+// maximum temperature allowed
+#define TEMP_THRESHOLD 60
 
 // define two different outputs, so each output could be controlled seperatly (in this sketch both are controlled the same way)
 #define OUT_0 0
@@ -107,6 +112,28 @@ void LightDownSlow()
   runIt = false;
 }
 
+/*
+  TESTING!!!
+  Gets the actual temperature value and if it is below the threshold value it returns true otherwise false
+  If no temperature sensor is available, connect the data pin to ground; in this case the function returns true
+*/
+bool IsTemperatureOK()
+{
+  float TempVal = analogRead(TEMP_SENSOR);
+
+  // no temperature sensor is connected (should not be done as this is a security feature, but someone might not want to have it ...)
+  if (TempVal == 0)
+  {
+    return true;
+  }
+  
+  TempVal = (TempVal / 255) * 5; // Converts analogRead value to Volts
+  // Voltage -> Temperature calculation, see https://learn.adafruit.com/tmp36-temperature-sensor
+  TempVal = (TempVal * 1000) - 500; 
+  TempVal = TempVal / 10;
+  
+  return (TempVal < TEMP_THRESHOLD);
+}
 
 // the loop function runs over and over again forever
 void loop() 
