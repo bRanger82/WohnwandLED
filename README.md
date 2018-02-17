@@ -27,7 +27,31 @@ For programming the ATTINY85 I used my homemade Arduino UNO shield (if you use a
 
 The wiring of this project can be found at this web location: https://easyeda.com/normal/Wohnwand_LED_Dimmer-4bb96620fb774767b6f44a7fb720bd82
 
-For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS (BOM will follow).
+For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS 
+A BOM list can be found below, additional information is available on the PCB layout page.
+
+Ref. Des.|Name, Size, Value|Quantity
+------------- | ------------- | -------------
+P1, P2, P4|Terminal, 2x1, 2.54mm|3
+R1, R3, R5|Resistor, 1k|3
+R2, R4|Resistor, 10k|2
+R6|Resistor 330 Ohm|1
+U1|ATTINY85|1
+U2|LED, 5mm|1
+U3|LM7805CV (linear Voltage Regulator 5V)|1
+P3, P5|Connector, 3x1, 2.54mm|2
+P6|Connector, 4x1, 2.54mm|1
+U4, U5|Jumper terminals, 2x1, 2.54 mm|2
+C1|100uf, >16V|1
+C4|1uF, >16V|1
+C8|0.1uF, >16V|1
+C2|100uF, >5V|1
+C3|0.1uF, >5V|1
+C7|1uF, >5V|1
+Q1, Q2|IRF540N (also tested witlh IRF3205) MOSFET|2
+D1, D2|Diode, 1N4007|2
+F1|2 parts to hold a 5mm x 20mm fuse|2
+
 
 **Note:** the temperature sensor is a security feature which checks (in the loop method) the actual temperature. If the measured temperature exceeds a defined threshold value, the outputs are turned off! 
 If you do not want to use a temperature sensor you will **do it on your own risk**. It is highly recommended to use one to monitor the temperature inside the case. 
