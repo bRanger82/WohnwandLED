@@ -50,7 +50,7 @@ C3|0.1uF, >5V|1
 C7|1uF, >5V|1
 Q1, Q2|IRF540N (also tested witlh IRF3205) MOSFET|2
 D1, D2|Diode, 1N4007|2
-F1|2 parts to hold a 5mm x 20mm fuse|2
+F1|1 pair for a 5mm x 20mm fuse|1
 
 
 The idea behind a temperature sensor: it measures the actucal temperature inside of the MOSFETs and, if a threshold is exceeded, it will turn off all outputs. You can use any temperature sensor, in my project I used a **TMP36**. If you use a different sensor then you need to adapt the arduino code tho. I also used the diagnostic LED as indicator if something went wrong.
