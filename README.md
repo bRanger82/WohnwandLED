@@ -5,9 +5,9 @@ _I know my project is not perfect and may have the ... let's say 'potential' for
 
 There are some reasons why I did not simply went into the next electronic store and bought a pre-made LED-stripe:
 - I want to get more into electronics, what is better than learning by doing? (no, this time no smoke esacped during testing)
-- pre-made LED stripes controller works, in most cases, only with LED strip from the same company. So you have to replace your current LED stripes which is, in my opinion, nonsense
-- even if there is at least one LED stripe controller for your LED strips, you get one more IR remote control device (yes, one MORE)
-- a pre-made LED stripe controller does only what it is supposed to do. And this leads us to the biggest advantage of DIY projects: you can define anything by your own. 
+- pre-made LED strips controller works, in most cases, only with LED strip from the same company. So you have to replace your current LED strips which is, in my opinion, nonsense
+- even if there is at least one LED strip controller for your LED strips, you get one more IR remote control device (yes, one MORE)
+- a pre-made LED strip controller does only what it is supposed to do. And this leads us to the biggest advantage of DIY projects: you can define anything by your own. 
 
 Nevertheless this project has also a few downsides:
 - you need a specific PCB or at least a template solder mask to create the circuit (if you do not want to have it on a bread-board)
