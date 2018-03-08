@@ -3,21 +3,13 @@
 // the IR receiver is connected to PIN3
 #define RECV_PIN 2
 
-// the PIN to which the temperature sensor is connected
-// http://funwidelectronics.blogspot.co.at/2016/10/lm35gui.html
-#define TP_PIN 5
-
 #define DIAG_LED 4
-
-// PINOUT: https://camo.githubusercontent.com/081b569122da2244ff7de8bae15eb56947d05cc8/687474703a2f2f6472617a7a792e636f6d2f652f696d672f50696e6f7574543835612e6a7067
-
-float temperature=0.0f;
-const float MAX_TEMP = 60;
 
 // define two different outputs, so each output could be controlled seperatly (in this sketch both are controlled the same way)
 #define OUT_0 0
 #define OUT_1 1
 
+// defines the parameters of this program (start value for the outputs, in- and decrease steps, ...)
 #define CURR_START 0
 #define CURR_MAX 250
 #define CURR_MIN 0
@@ -28,6 +20,7 @@ const float MAX_TEMP = 60;
 #define DELAY_STEP_UP 25
 #define DELAY_STEP_DW 25
 
+// defines the delay length for each loop() run 
 #define DELAY_LOOP_RUN 50
 
 // using library for receiving and processing IR signals
@@ -49,128 +42,114 @@ volatile bool runIt = false;
 volatile int curr = 0;
 
 // the setup function runs once when you press reset or power the board
-void setup()
+void setup() 
 {
   // activate IR receiver
   irrecv.enableIRIn(); // Start the receiver
-
+  
   // when turned on the value is 0
   curr = CURR_START;
   // Define pins, currently only OUT_1 is used
   pinMode(OUT_0, OUTPUT);
   pinMode(OUT_1, OUTPUT);
-  pinMode(DIAG_LED, OUTPUT);
 
-  digitalWrite(DIAG_LED, LOW);
   analogWrite(OUT_0, curr);
   analogWrite(OUT_1, curr);
+
+  pinMode(DIAG_LED, OUTPUT);
+  digitalWrite(DIAG_LED, LOW);
 }
 
-/*
-  This method turns _on_ the Light slowly by increasing the brightness
-*/
-void LightUpSlow()
-{
-  // if a process is already running or the lights are already on max --> exit
-  if (curr >= CURR_MAX || runIt) { return; }
-
-  runIt = true;
-  while(curr<CURR_MAX)
-  {
-    // change the time for delay and/or for increasing the value, to change the time until the max. brightness is reached
-    delay(DELAY_STEP_UP);
-    curr+=CURR_INC_UP;
-    if (curr > CURR_MAX)
-    {
-      curr = CURR_MAX;
-    }
-    analogWrite(OUT_0, curr);
-    analogWrite(OUT_1, curr);
-  }
-  runIt = false;
-}
-
-/*
-  This method turns _off_ the Light slowly by decreasing the brightness
-*/
-void LightDownSlow()
+// FadeDown Function, increases light
+// value: the value to fadeDown to (e.g. value = 25 --> outputs will be decreased from curr -> 25)
+void FadeStepDown(int value)
 {
   // if a process is already running or the lights are already on min --> exit
-  if (curr <= CURR_MIN || runIt) { return; }
-
+  if (runIt) { return; }
+  
+  //use new value, just in case it needs to be changed in future
+  int ToValue = value;
+  
+  // check for limits
+  if (ToValue < CURR_MIN) { ToValue = CURR_MIN; }
+  if (ToValue > CURR_MAX) { ToValue = CURR_MAX; }
+  
   runIt = true;
-  while(curr>CURR_MIN)
+  
+  while(curr > ToValue)
   {
     // change the time for delay and/or for increasing the value, to change the time until the min. brightness is reached
     delay(DELAY_STEP_DW);
     curr-=CURR_INC_DW;
-    if (curr < CURR_MIN)
-    {
-      curr = CURR_MIN;
-    }
+    
+    analogWrite(OUT_0, curr);
+    analogWrite(OUT_1, curr);
+  }
+  runIt = false;  
+}
+
+// FadeUp Function, increases light
+// value: the value to fadeUp to (e.g. value = 250 --> outputs will be increased from curr -> 250)
+void FadeStepUp(int value)
+{
+  // if a process is already running or the lights are already on min --> exit
+  if (runIt) { return; }
+  
+  //use new value, just in case it needs to be changed in future
+  int ToValue = value;
+  
+  // check for limits
+  if (ToValue < CURR_MIN) { ToValue = CURR_MIN; }
+  if (ToValue > CURR_MAX) { ToValue = CURR_MAX; }
+  
+  runIt = true;
+  
+  while(curr < ToValue)
+  {
+    // change the time for delay and/or for increasing the value, to change the time until the max. brightness is reached
+    delay(DELAY_STEP_UP);
+    curr+=CURR_INC_UP;
+    
     analogWrite(OUT_0, curr);
     analogWrite(OUT_1, curr);
   }
   runIt = false;
 }
 
-
 // the loop function runs over and over again forever
-void loop()
+void loop() 
 {
-  if (!IsTemperatureOK())
-  {
-    WriteToOutput(0);
-    digitalWrite(DIAG_LED, HIGH);
-    delay(150);
-    digitalWrite(DIAG_LED, LOW);
-    delay(250);
-    return;
-  }
-  
   // need a break, need a kitk ... ahm delay :)
   delay(DELAY_LOOP_RUN);
-  
-  if (irrecv.decode(&results))
+  // test for diagnostic LED, TBD: change LED on/off according to status
+  digitalWrite(DIAG_LED, !digitalRead(DIAG_LED));
+  if (irrecv.decode(&results)) 
   {
-    switch(results.value)
+    // store current value, might be needed in future
+    int newValue = curr;
+    
+    // based on the pressed button the desired funcion should be done
+    if (results.value == left) 
     {
-      case left:
-        LightDownSlow();
-        break;
-      case leftMid:
-        curr -= CURR_STEP_DW;
-        WriteToOutput(curr);
-        break;
-      case rightMid:
-        curr += CURR_STEP_UP;
-        WriteToOutput(curr);
-        break;
-      case right:
-        LightUpSlow();
-        break;
-      default:
-        break;
+      // fade to minimum brightness
+      FadeStepDown(CURR_MIN);
+    } else if (results.value == leftMid) 
+    {
+      // subtract the step down value to the current value 
+      newValue -= CURR_STEP_DW;
+      FadeStepDown(newValue);
+    } else if (results.value == rightMid) 
+    {
+      // add the step up value to the current value 
+      newValue += CURR_STEP_UP;
+      FadeStepUp(newValue);
+    } else if (results.value == right) 
+    {
+      // fade to full brightness
+      FadeStepUp(CURR_MAX);
     }
+
     // ready for receiving the next value
     irrecv.resume(); // Receive the next value
   }
-}
-
-bool IsTemperatureOK()
-{
-  temperature = analogRead(TP_PIN);
-  temperature = (0.4887*temperature);
-  return (temperature <= MAX_TEMP)
-}
-
-void WriteToOutput(int val)
-{
-  // Just to make sure that everything is in range
-  if (val < CURR_MIN) { val = CURR_MIN; }
-  if (val > CURR_MAX) { val = CURR_MAX; }
-
-  // Output value to OUT_0 and OUT_1
-  analogWrite(OUT_0, val);
-  analogWrite(OUT_1, val);
 }
