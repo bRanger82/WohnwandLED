@@ -11,7 +11,7 @@ There are some reasons why I did not simply went into the next electronic store 
 
 Nevertheless this project has also a few downsides:
 - you need a specific PCB or at least a template solder mask to create the circuit (if you do not want to have it on a bread-board)
-- you need to find out the IR codes of your buttons which are useless on your TV remote control
+- you need to find out the IR codes of your buttons which are unused on your TV remote control
 - and this leads to the next point: you need some buttons on your TV remote control which are not used yet
 - you need to have the equipment available (solder station, ...)
 - you need to buy all the parts (which may cost more than a pre-made LED stripe + controller)
@@ -53,6 +53,6 @@ D1, D2|Diode, 1N4007|2
 F1|1 pair for a 5mm x 20mm fuse|1
 
 
-The idea behind a temperature sensor: it measures the actucal temperature inside of the MOSFETs and, if a threshold is exceeded, it will turn off all outputs. You can use any temperature sensor, in my project I used a **TMP36**. If you use a different sensor then you need to adapt the arduino code tho. I also used the diagnostic LED as indicator if something went wrong.
+The idea behind a temperature sensor: it measures the actucal temperature inside the case and, if a threshold is exceeded, it will turn off all outputs. You can use any temperature sensor, in my project I used a **TMP36**. If you use a different sensor then you need to adapt the arduino code tho. I also used the diagnostic LED as indicator if something went wrong.
 
-Before you upload the code onto the ATTINY85 please make sure that you **first upload the bootloader with _8MHz_**. Otherwise the IR code will not work (because of the _wrong_ timing, the received values could be random/differs each time).
+Before you upload the code onto the ATTINY85 please make sure that you **first upload the bootloader with _8MHz_**. Otherwise the IR code may not work (I only got it running with 8Mhz, otherwise the received values could be random/differs each time).
