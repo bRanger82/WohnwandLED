@@ -24,34 +24,11 @@ Requirements:
 - Arduino Software: library to program an ATTINY85
 - Hardware: see PCB and the BOM list below
 
-The wiring of this project can be found at this web location: https://easyeda.com/normal/Wohnwand_LED_Dimmer-4bb96620fb774767b6f44a7fb720bd82
+The wiring of this project and BOM can be found at this web location: https://easyeda.com/michi/Wohnwand_LED-1d8cbbe2c72c49daaca4bd0bf47e9f24
 
 For additional information on the PCB layout see https://aisler.net/p/AGCJZQNS 
 
-**BOM List:**
-
-Ref. Des.|Name, Size, Value|Quantity
-------------- | ------------- | -------------
-P1, P2, P4|Terminal, 2x1, 2.54mm|3
-R1, R3, R5|Resistor, 1k|3
-R2, R4|Resistor, 10k|2
-R6|Resistor 330 Ohm|1
-U1|ATTINY85|1
-U2|LED, 5mm|1
-U3|LM7805CV (linear Voltage Regulator 5V)|1
-P3, P5|Connector, 3x1, 2.54mm|2
-P6|Connector, 4x1, 2.54mm|1
-U4, U5|Jumper terminals, 2x1, 2.54 mm|2
-C1|470uf, 35V|1
-C4|1uF, >16V|1
-C8|0.1uF, >16V|1
-C2|100uF, 35V|1
-C3|0.1uF, >5V|1
-C7|1uF, >5V|1
-Q1, Q2|IRF540N (also tested witlh IRF3205) MOSFET|2
-D1, D2|Diode, 1N4007|2
-F1|1 pair for a 5mm x 20mm fuse|1
-
+R7, Q3 and D3 are used as a reverse voltage protection. If want more information just search for "reverse voltage protection mosfet" on the internet. 
 
 The idea behind a temperature sensor: it measures the actucal temperature inside the case and, if a threshold is exceeded, it will turn off all outputs. You can use any temperature sensor, in my project I used a **TMP36**. If you use a different sensor then you need to adapt the arduino code tho. I also used the diagnostic LED as indicator if something went wrong.
 
