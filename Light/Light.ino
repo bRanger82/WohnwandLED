@@ -2,7 +2,7 @@
 
 // the IR receiver is connected to PIN3
 #define RECV_PIN 2
-
+// diagnostic LED, on-board, to signalize if an error has ocurred. - TO BE DONE!
 #define DIAG_LED 4
 
 // define two different outputs, so each output could be controlled seperatly (in this sketch both are controlled the same way)
@@ -10,15 +10,15 @@
 #define OUT_1 1
 
 // defines the parameters of this program (start value for the outputs, in- and decrease steps, ...)
-#define CURR_START 0
-#define CURR_MAX 250
-#define CURR_MIN 0
-#define CURR_INC_UP 1
-#define CURR_INC_DW 1
-#define CURR_STEP_UP 25
-#define CURR_STEP_DW 25
-#define DELAY_STEP_UP 25
-#define DELAY_STEP_DW 25
+#define CURR_START 0     // AnalogWrite value when startup 
+#define CURR_MAX 250     // Maximum value for AnalogWrite (PWM to LED)
+#define CURR_MIN 0       // Minimum value for AnalogWrite (PWM to LED)
+#define CURR_INC_UP 1    // Step-up value (PWM to LED) 
+#define CURR_INC_DW 1    // Step-down value (PWM to LED)
+#define CURR_STEP_UP 25  // Increase value for Button fade-up 
+#define CURR_STEP_DW 25  // Decrease value for Button fade-down
+#define DELAY_STEP_UP 25 // Delay between fade-up (from current value to the new value, using steps given as CURR_STEP_UP)
+#define DELAY_STEP_DW 25 // Delay between fade-down (from current value to the new value, using steps given as CURR_STEP_DW)
 
 // defines the delay length for each loop() run 
 #define DELAY_LOOP_RUN 50
