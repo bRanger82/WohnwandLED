@@ -37,6 +37,7 @@ const unsigned long rightMid = 551509410;
 const unsigned long right = 551514510;
 
 // if a process is already running this variable is set to true (e.g. while lightUpSlow is running)
+// implemented, just in case a later implemented interrupt needs this status information
 volatile bool runIt = false;
 // the current output value for the OUTs
 volatile int curr = 0;
@@ -64,8 +65,7 @@ void setup()
 // value: the value to fadeDown to (e.g. value = 25 --> outputs will be decreased from curr -> 25)
 void FadeStepDown(int value)
 {
-  // if a process is already running or the lights are already on min --> exit
-  if (runIt) { return; }
+  runIt = true;
   
   //use new value, just in case it needs to be changed in future
   int ToValue = value;
@@ -73,9 +73,7 @@ void FadeStepDown(int value)
   // check for limits
   if (ToValue < CURR_MIN) { ToValue = CURR_MIN; }
   if (ToValue > CURR_MAX) { ToValue = CURR_MAX; }
-  
-  runIt = true;
-  
+
   while(curr > ToValue)
   {
     // change the time for delay and/or for increasing the value, to change the time until the min. brightness is reached
@@ -92,8 +90,7 @@ void FadeStepDown(int value)
 // value: the value to fadeUp to (e.g. value = 250 --> outputs will be increased from curr -> 250)
 void FadeStepUp(int value)
 {
-  // if a process is already running or the lights are already on min --> exit
-  if (runIt) { return; }
+  runIt = true;
   
   //use new value, just in case it needs to be changed in future
   int ToValue = value;
@@ -101,8 +98,6 @@ void FadeStepUp(int value)
   // check for limits
   if (ToValue < CURR_MIN) { ToValue = CURR_MIN; }
   if (ToValue > CURR_MAX) { ToValue = CURR_MAX; }
-  
-  runIt = true;
   
   while(curr < ToValue)
   {
