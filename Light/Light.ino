@@ -38,7 +38,7 @@ const unsigned long right = 551514510;
 
 // if a process is already running this variable is set to true (e.g. while lightUpSlow is running)
 volatile bool runIt = false;
-// the current output value for OUT_1
+// the current output value for the OUTs
 volatile int curr = 0;
 
 // the setup function runs once when you press reset or power the board
